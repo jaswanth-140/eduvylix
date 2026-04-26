@@ -3,16 +3,27 @@ import { createContext, useContext, useMemo, useState } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const normalizeToken = (value) => {
+    if (!value || value === "null" || value === "undefined") return null;
+    if (typeof value === "string" && !value.includes(".")) return null;
+    return value;
+  };
+
+  const [token, setToken] = useState(() => normalizeToken(localStorage.getItem("token")));
   const [admin, setAdmin] = useState(() => {
     const raw = localStorage.getItem("admin");
     return raw ? JSON.parse(raw) : null;
   });
 
   const login = ({ token: accessToken, admin: currentAdmin }) => {
-    setToken(accessToken);
+    const safeToken = normalizeToken(accessToken);
+    setToken(safeToken);
     setAdmin(currentAdmin);
-    localStorage.setItem("token", accessToken);
+    if (safeToken) {
+      localStorage.setItem("token", safeToken);
+    } else {
+      localStorage.removeItem("token");
+    }
     localStorage.setItem("admin", JSON.stringify(currentAdmin));
   };
 

@@ -62,6 +62,9 @@ def create_app() -> Flask:
 
     @app.get("/<path:path>")
     def serve_static(path: str):
-        return send_from_directory(app.static_folder, path)
+        file_path = Path(app.static_folder) / path
+        if file_path.is_file():
+            return send_from_directory(app.static_folder, path)
+        return send_from_directory(app.static_folder, "index.html")
 
     return app

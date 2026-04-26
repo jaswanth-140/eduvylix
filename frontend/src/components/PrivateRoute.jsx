@@ -23,7 +23,7 @@ function PrivateRoute({ children }) {
     if (hasValidStudentSession) {
       return children;
     }
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
   return children;
 }

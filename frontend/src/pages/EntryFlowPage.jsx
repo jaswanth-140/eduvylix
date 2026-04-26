@@ -38,9 +38,10 @@ function EntryFlowPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/admin", { replace: true });
+      markSeen();
+      setStage("select");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, markSeen]);
 
   const toSelect = async () => {
     if (transitioning) return;
@@ -249,4 +250,6 @@ function EntryFlowPage() {
   );
 }
 
-export default EntryFlowPage;
+export default EntryFlowPage;  
+
+
