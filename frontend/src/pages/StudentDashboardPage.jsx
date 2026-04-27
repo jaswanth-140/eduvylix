@@ -260,7 +260,6 @@ export default function StudentDashboardPage() {
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard size={20} /> },
     { id: "performance", label: "Analytics", icon: <ChartIcon size={20} /> },
-    { id: "follow-up", label: "Follow Up", icon: <Clock size={20} /> },
     { id: "leaderboard", label: "Leaderboard", icon: <Trophy size={20} />, href: "/leaderboard" },
     { id: "settings", label: "Settings", icon: <Settings size={20} /> },
   ];
@@ -722,121 +721,7 @@ export default function StudentDashboardPage() {
               </motion.section>
             )}
 
-            {activeTab === "follow-up" && (
-              <motion.section 
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="w-full grid gap-8 lg:grid-cols-2"
-              >
-                <div className="rounded-3xl border border-white/5 bg-slate-950/40 p-10">
-                  <h3 className="text-2xl font-black text-white">Discipline Follow-up</h3>
-                  <p className="mt-2 text-slate-400 font-medium">Have questions or want to appeal a score change? Submit a follow-up request to the administration team.</p>
-                  
-                  <div className="mt-10 space-y-6">
-                    <div className="p-6 rounded-2xl bg-cyan-500/5 border border-cyan-500/20">
-                      <p className="text-xs font-black uppercase tracking-widest text-cyan-400 mb-2">Request Assistance</p>
-                      <p className="text-sm text-slate-300 mb-6">Your request will be reviewed by college supervisors. You will receive a notification once an action is taken.</p>
-                      
-                      <button 
-                        onClick={submitFollowupRequest}
-                        disabled={isRequestingFollowup}
-                        className="w-full p-4 rounded-xl bg-cyan-600 text-white font-black uppercase tracking-widest text-sm hover:bg-cyan-700 transition-colors disabled:opacity-50"
-                      >
-                        {isRequestingFollowup ? "Sending..." : "Submit Follow-up Request"}
-                      </button>
-                    </div>
 
-                    <div className="space-y-4">
-                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">History & Status</p>
-                      <div className="rounded-2xl border border-white/5 bg-slate-900/40 p-6 flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-bold text-white">Meeting Request</p>
-                          <p className="text-xs text-slate-500 mt-1">Pending verification</p>
-                        </div>
-                        <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-black uppercase tracking-widest">Awaiting Review</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-8">
-                  {isAuthenticated ? (
-                    <div className="rounded-3xl border border-rose-500/20 bg-slate-950/60 p-10 backdrop-blur-xl">
-                      <div className="flex items-center gap-4 mb-8">
-                        <div className="p-3 rounded-2xl bg-rose-500/20 text-rose-400">
-                          <Activity size={24} />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-black text-white">Admin Controls</h3>
-                          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Direct Score Modulation</p>
-                        </div>
-                      </div>
-
-                      <div className="space-y-5">
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">New Behavior Score</label>
-                          <input 
-                            type="number"
-                            value={disciplineForm.behavior}
-                            onChange={(e) => setDisciplineForm({ ...disciplineForm, behavior: e.target.value })}
-                            className="w-full rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 text-sm text-white focus:border-rose-500 outline-none transition-all"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Category</label>
-                          <select 
-                            value={disciplineForm.category}
-                            onChange={(e) => setDisciplineForm({ ...disciplineForm, category: e.target.value })}
-                            className="w-full rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 text-sm text-white focus:border-rose-500 outline-none transition-all"
-                          >
-                            <option value="">Select Category</option>
-                            <option value="Behavior Issue">Behavior Issue</option>
-                            <option value="Good Performance">Good Performance</option>
-                            <option value="Contribution">Contribution</option>
-                            <option value="Other">Other</option>
-                          </select>
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Reason</label>
-                          <input 
-                            value={disciplineForm.reason}
-                            onChange={(e) => setDisciplineForm({ ...disciplineForm, reason: e.target.value })}
-                            className="w-full rounded-xl border border-slate-800 bg-slate-900/50 px-4 py-3 text-sm text-white focus:border-rose-500 outline-none transition-all"
-                            placeholder="Reason for change..."
-                          />
-                        </div>
-                        <div className="pt-4 flex flex-col gap-4">
-                           {updateMessage && <p className="text-xs font-black uppercase tracking-widest text-emerald-400">{updateMessage}</p>}
-                           {updateError && <p className="text-xs font-black uppercase tracking-widest text-rose-400">{updateError}</p>}
-                           <button 
-                            onClick={submitDisciplineUpdate}
-                            disabled={isSubmittingUpdate}
-                            className="w-full py-4 rounded-xl bg-rose-600 text-white font-black uppercase tracking-[0.3em] text-xs hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20 active:scale-[0.98]"
-                           >
-                            {isSubmittingUpdate ? "Committing..." : "Update Score Now"}
-                           </button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="rounded-3xl border border-white/5 bg-slate-950/40 p-10">
-                      <h4 className="text-xl font-black text-white mb-6">Timeline of Events</h4>
-                      <div className="space-y-6">
-                        {history.slice(0, 5).map((item, i) => (
-                          <div key={i} className="flex gap-4">
-                            <div className="w-1 h-auto bg-slate-800 rounded-full" />
-                            <div>
-                              <p className="text-sm font-bold text-slate-200">{item.reason}</p>
-                              <p className="text-xs text-slate-500 mt-1">{new Date(item.created_at || item.timestamp).toLocaleDateString()} • {item.category}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </motion.section>
-            )}
           </AnimatePresence>
         </div>
         {/* Footer */}
